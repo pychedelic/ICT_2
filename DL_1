@@ -1,0 +1,38 @@
+import numpy as np
+
+input = np.array([2,3])
+
+weights = {'node_0_0': np.array([2,2]),
+           'node_0_1': np.array([3,-1]),
+           'node_1_0': np.array([2,2]),
+           'node_1_1': np.array([2,-1]),
+           'output': np.array([1,1])}
+
+#define activation function
+def relu(input):
+    output = (0, input)
+    return output
+
+#prediction
+def prediction_with_network(input_data_row, weights):
+    node_0_0_input = (input_data_row*weights['node_0_0']).sum()
+    node_0_0_output = relu(node_0_0_input)
+
+    node_0_1_input = (input_data_row*weights['node_0_1']).sum()
+    node_0_1_output = relu(node_0_1_input)
+
+    hidden_0_outputs = np.array([node_0_0_output, node_0_1_output])
+
+    node_1_0_input = (hidden_0_outputs*weights['node_1_0']).sum()
+    node_1_0_output = relu(node_1_0_input)
+
+    node_1_1_input = (hidden_0_outputs*weights['node_1_1']).sum()
+    node_1_1_output = relu(node_1_1_input)
+
+    hidden_1_output = np.array([node_1_0_output, node_1_1_output])
+
+    model_output = np.array(hidden_1_output*weights['output']).sum()
+
+    return model_output
+output = prediction_with_network(input, weights)
+print(output)
